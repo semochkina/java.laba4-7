@@ -17,3 +17,4 @@ public class TestIntegral {
         assertEquals(0.0, actual, delta);
     }
 }
+
