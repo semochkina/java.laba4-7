@@ -1,6 +1,5 @@
 package functions;
 
-import functions.FunOneArgumentExp;
 import org.junit.Assert;
 import org.junit.Test;
 

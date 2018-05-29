@@ -3,7 +3,12 @@ package functionals;
 import interfaces.FunOneArgument;
 import interfaces.Functional;
 
-public class Integral implements Functional<FunOneArgument>{
+/**
+ * определенный интеграл на отрезке [a; b] (пределы интегрирования хранятся как поля и
+ * устанавливаются конструктором, если область определения функции не содержится в [a; b],
+ * то выбрасывается исключение), интегрирование производить методом прямоугольников.
+ */
+public class Integral implements Functional<FunOneArgument> {
     private double a;
     private double b;
 
@@ -12,14 +17,21 @@ public class Integral implements Functional<FunOneArgument>{
         this.b = v1;
     }
 
-//    @Override
-//    public double calculate(T func) {
-//        double sum = func
-//        return sum;
-//    }
-
     @Override
     public double calculate(FunOneArgument func) {
-        return 0.5 *( func.calculate(func.segmentBegin()) + func.calculate(func.segmentEnd()));
+        double result = 0.;
+        // производим интегрирование методом прямоугольников
+        double dx = 0.000001;
+        double x = a;
+        while (x < b) {
+            double valueFun = func.calculate(x + dx / 2);
+            if (valueFun == Double.NaN) {
+                // определения функции не содержится в данной точке
+                throw new RuntimeException("For x=" + x + " " + func.getClass() + " return NaN");
+            }
+            result += valueFun * dx;
+            x += dx;
+        }
+        return result;
     }
 }
